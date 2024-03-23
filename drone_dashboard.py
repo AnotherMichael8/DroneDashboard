@@ -4,12 +4,13 @@ import streamlit as st
 import pandas as pd
 import altair as alt
 import plotly.express as px
+from PIL import Image
 
 #######################
 # Page configuration
 st.set_page_config(
-    page_title="US Population Dashboard",
-    page_icon="🏂",
+    page_title="Bio-Emergency-Aid-Navigator",
+    #page_icon="🏂",
     layout="wide",
     initial_sidebar_state="expanded")
 
@@ -73,11 +74,11 @@ df_reshaped = pd.read_csv('data/us-population-2010-2019-reshaped.csv')
 #######################
 # Sidebar
 with st.sidebar:
-    st.title('🏂 US Population Dashboard')
+    st.title('Bio-Emergency-Aid-Navigator')
     
     year_list = list(df_reshaped.year.unique())[::-1]
     
-    selected_year = st.selectbox('Select a year', year_list)
+    selected_year = st.selectbox('Drones Active', year_list)
     df_selected_year = df_reshaped[df_reshaped.year == selected_year]
     df_selected_year_sorted = df_selected_year.sort_values(by="population", ascending=False)
 
@@ -185,11 +186,32 @@ def calculate_population_difference(input_df, input_year):
 
 #######################
 # Dashboard Main Panel
-col = st.columns((1.5, 4.5, 2), gap='medium')
 
-with col[0]:
-    st.markdown('#### Gains/Losses')
-
+col1 = st.columns(2, gap='medium')
+blockCSS = """<div style="background-color: #333333; color: white; border-radius: 5px; padding: 10px;">"""
+with col1[0]:
+    x_number = 10
+    y_number = 11
+    z_number = 12
+    st.markdown('#### Coordinate Location')
+    st.markdown("""<div style="background-color: #1AA91A; color: white; border-radius: 5px; padding: 10px;">"""
+                f"""<strong>X:</strong> {x_number}<br><strong>Y:</strong> {y_number}<br><strong>Z:</strong> {z_number}"""
+                """</div>""", unsafe_allow_html=True)
+with col1[1]:
+    bandaids = 10
+    placeholder1 = 11
+    placeholder2 = 12
+    st.markdown('#### Amount of Items')
+    st.markdown("""<div style="background-color: #0F1CA9; color: white; border-radius: 5px; padding: 10px;">"""
+                f"""<strong>Bandaids:</strong> {bandaids}<br><strong>Placeholder1:</strong> {placeholder1}<br><strong>Placeholder2:</strong> {placeholder2}"""
+                """</div>""", unsafe_allow_html=True)
+    
+col2 = st.columns((1,6,1), gap="medium")
+with col2[1]:
+    st.markdown('#### Live Drone Feed')
+    st.image(Image.open('tempdroneshot.png'))
+    
+"""
     df_population_difference_sorted = calculate_population_difference(df_reshaped, selected_year)
 
     if selected_year > 2010:
@@ -274,3 +296,4 @@ with col[2]:
             - :orange[**Gains/Losses**]: states with high inbound/ outbound migration for selected year
             - :orange[**States Migration**]: percentage of states with annual inbound/ outbound migration > 50,000
             ''')
+            """
