@@ -1,0 +1,2 @@
+Bandaids: 8;
+Gauzes: 7;
